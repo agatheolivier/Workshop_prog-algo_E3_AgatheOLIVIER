@@ -40,4 +40,14 @@ Au départ je n'avais pas stocker l'image de référence, et j'obtenais une sym�
 
 30% de chance que le pixel soit remplacé par une couleur aléatoire.
 
-![](./output/inverse.png)
+![](./output/bruit.png)
+
+## Exercice n°8 : Rotation 90°
+
+J'ai eu un peu de mal à comprendre la formule pour la rotation à 90, j'ai donc fait un schéma sur papier pour mieux comprendre ce qui se passait :
+
+![](./images/LogiqueRotationEx8.jpg)
+
+J'ai donc obtenu le bon résultat : 
+
+![](./output/rotation90.png)

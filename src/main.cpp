@@ -65,7 +65,7 @@ for (int x{0}; x < image.width()-1; x++)
 }   */
 
 //  */************************************ Exercice n°7 : image bruité **********************************************
-void bruit(sil::Image& image) {
+/* void bruit(sil::Image& image) {
     for (glm::vec3& color : image.pixels()) {
         if (true_with_probability(0.3)) {
             float rand = random_float(0, 1);
@@ -76,12 +76,25 @@ void bruit(sil::Image& image) {
             color.b = rand;
         }
     }
-}  
+}   */
+
+//  */************************************ Exercice n°8 : 90° **********************************************
+sil::Image AngleDroit(sil::Image& image) {
+    sil::Image rotation{image.height(), image.width()}; //On inverse la proportion longueur et largeur
+    for (int x = 0; x < image.width(); x++)
+    {
+        for (int y{0}; y < image.height(); y++)
+        {
+            rotation.pixel(rotation.width() - 1 - y, x) = image.pixel(x, y); //Voir schéma read me
+        }
+    }
+    return rotation;
+} 
 
 int main()
 {
     sil::Image image{"images/logo.png"};
     //sil::Image image{300/*width*/, 200/*height*/};
-    bruit(image);
-    image.save("output/bruit.png");
+    sil::Image rotation = AngleDroit(image);
+    rotation.save("output/rotation90.png");
 }

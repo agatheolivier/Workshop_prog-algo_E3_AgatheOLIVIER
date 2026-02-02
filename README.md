@@ -1,3 +1,7 @@
-# 🐣 S1 | Prog: Workshop
+# Workshop prog algo - Agathe OLIVIER
 
-Template de projet pour le workshop de prog des Imac1. Vous trouverez le sujet ici: https://dsmte.github.io/Learn--cpp_programming/Workshop
+## Exercice n°1 : Ne garder que le vert
+
+Mettre le bleu et le rouge à 0.
+
+![](./output/UniquementVert.png)

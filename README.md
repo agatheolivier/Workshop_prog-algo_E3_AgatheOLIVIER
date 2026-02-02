@@ -11,3 +11,9 @@ Mettre le bleu et le rouge à 0.
 Avec swap.
 
 ![](./output/EchangerLesCanaux.png)
+
+## Exercice n°3 : Noir et blanc 
+
+Grace à la formule de luminance (rouge*0.3 + vert*0.59 + bleu*0.11)
+
+![](./output/NoirEtBlanc.png)

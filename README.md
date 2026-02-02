@@ -17,3 +17,9 @@ Avec swap.
 Grace à la formule de luminance (rouge*0.3 + vert*0.59 + bleu*0.11)
 
 ![](./output/NoirEtBlanc.png)
+
+## Exercice n°4 : Négatif
+
+1-couleur pour avoir l'inverse.
+
+![](./output/Negatif.png)

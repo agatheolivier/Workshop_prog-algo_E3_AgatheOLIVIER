@@ -1,13 +1,13 @@
 #include <sil/sil.hpp>
 
 // /* ************************************ Exercice n°1 : Ne garder que le vert ********************************************* */
-void UniquementVert(sil::Image& image) {
+/* void UniquementVert(sil::Image& image) {
     for (glm::vec3& color : image.pixels())
     {
         color.r = 0.f;
         color.b = 0.f;
     }
-} 
+}  */
 
 //  */************************************ Exercice n°2 : Échanger les canaux **********************************************
 /* void EchangerLesCanaux(sil::Image& image) {
@@ -29,9 +29,19 @@ void UniquementVert(sil::Image& image) {
     }
 }  */
 
+//  */************************************ Exercice n°4 : Négatif **********************************************
+void Negatif(sil::Image& image) {
+    for (glm::vec3& color : image.pixels())
+    {   
+        color.r = 1-color.r;
+        color.g = 1-color.g;
+        color.b = 1-color.b;
+    }
+}  
+
 int main()
 {
     sil::Image image{"images/logo.png"};
-    UniquementVert(image);
-    image.save("output/UniquementVert.png");
+    Negatif(image);
+    image.save("output/Negatif.png");
 }

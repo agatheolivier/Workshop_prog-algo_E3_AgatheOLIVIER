@@ -51,3 +51,11 @@ J'ai eu un peu de mal à comprendre la formule pour la rotation à 90, j'ai donc
 J'ai donc obtenu le bon résultat : 
 
 ![](./output/rotation90.png)
+
+## Exercice n°9 : RGB Split
+
+J'ai eu du mal à trouver les conditions dans les if, au départ je gardais les pixels de base mais ça faisait un bord à l'effet.
+
+J'ai compris grace à mes camarades qu'il fallait retirer le rouge ou le bleu en fonction du bord.
+
+![](./output/RGBsplit.png)

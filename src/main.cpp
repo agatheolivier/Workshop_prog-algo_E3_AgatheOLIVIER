@@ -79,7 +79,7 @@ for (int x{0}; x < image.width()-1; x++)
 }   */
 
 //  */************************************ Exercice n°8 : 90° **********************************************
-sil::Image AngleDroit(sil::Image& image) {
+/* sil::Image AngleDroit(sil::Image& image) {
     sil::Image rotation{image.height(), image.width()}; //On inverse la proportion longueur et largeur
     for (int x = 0; x < image.width(); x++)
     {
@@ -89,12 +89,39 @@ sil::Image AngleDroit(sil::Image& image) {
         }
     }
     return rotation;
-} 
+}  */
+
+//  */************************************ Exercice n°9 : RGB Split **********************************************
+void RGBsplit(sil::Image& image) {
+    sil::Image imageReference = image;
+    for (int x{0}; x < image.width()-1; x++)
+    {
+        for (int y{0}; y < image.height(); y++){
+            glm::vec3 color;
+            if (x < 31) {
+                //On remarque sur l'image de référence qu'il n'y a pas de rouge
+                color.g = imageReference.pixel(x, y).g;
+                color.b = imageReference.pixel(x+30, y).b;
+            }
+            else if (x >= image.width()-31) {
+                //On remarque sur l'image de référence qu'il n'y a pas de bleu
+                color.r = imageReference.pixel(x-30, y).r;
+                color.g = imageReference.pixel(x, y).g;
+            }
+            else {
+                color.r = imageReference.pixel(x-30, y).r;
+                color.g = imageReference.pixel(x, y).g;
+                color.b = imageReference.pixel(x+30, y).b;
+            }
+            image.pixel(x, y) = color;
+        }
+    }
+}   
 
 int main()
 {
     sil::Image image{"images/logo.png"};
     //sil::Image image{300/*width*/, 200/*height*/};
-    sil::Image rotation = AngleDroit(image);
-    rotation.save("output/rotation90.png");
+    RGBsplit(image);
+    image.save("output/RGBsplit.png");
 }

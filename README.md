@@ -23,3 +23,15 @@ Grace à la formule de luminance (rouge*0.3 + vert*0.59 + bleu*0.11)
 1-couleur pour avoir l'inverse.
 
 ![](./output/Negatif.png)
+
+## Exercice n°5 : Dégradé
+
+Equivalent de map en Processing puis (gris, gris, gris) pour les couleurs.
+
+![](./output/degrade.png)
+
+## Exercice n°6 : inverse
+
+Attention à bien penser à stocker l'image de référence, sinon on obtient une symétrie.
+
+![](./output/inverse.png)

@@ -59,3 +59,10 @@ J'ai eu du mal à trouver les conditions dans les if, au départ je gardais les 
 J'ai compris grace à mes camarades qu'il fallait retirer le rouge ou le bleu en fonction du bord.
 
 ![](./output/RGBsplit.png)
+
+## Exercice n°10 : Luminosité
+
+Puissance 1,5 pour assombrir et puissance 0,5 pour éclairer.
+
+![](./output/assombrissement.png)
+![](./output/eclaircissement.png)

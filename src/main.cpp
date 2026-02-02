@@ -1,5 +1,6 @@
 #include <sil/sil.hpp>
 #include "random.hpp"
+#include <cmath>
 
 // /* ************************************ Exercice n°1 : Ne garder que le vert ********************************************* */
 /* void UniquementVert(sil::Image& image) {
@@ -92,7 +93,7 @@ for (int x{0}; x < image.width()-1; x++)
 }  */
 
 //  */************************************ Exercice n°9 : RGB Split **********************************************
-void RGBsplit(sil::Image& image) {
+/* void RGBsplit(sil::Image& image) {
     sil::Image imageReference = image;
     for (int x{0}; x < image.width()-1; x++)
     {
@@ -116,12 +117,39 @@ void RGBsplit(sil::Image& image) {
             image.pixel(x, y) = color;
         }
     }
+}    */
+
+//  */************************************ Exercice n°9 : RGB Split **********************************************
+void assombrissement(sil::Image& image) {
+    for (int x{0}; x < image.width()-1; x++)
+    {
+        for (int y{0}; y < image.height(); y++){
+            glm::vec3 color;
+            color.r = std::pow(image.pixel(x, y).r, 1.5f);
+            color.g = std::pow(image.pixel(x, y).g, 1.5f);
+            color.b = std::pow(image.pixel(x, y).b, 1.5f);
+            image.pixel(x, y) = color;
+        }
+    }
+}
+
+void eclaircissement(sil::Image& image) {
+    for (int x{0}; x < image.width()-1; x++)
+    {
+        for (int y{0}; y < image.height(); y++){
+            glm::vec3 color;
+            color.r = std::pow(image.pixel(x, y).r, 0.5f);
+            color.g = std::pow(image.pixel(x, y).g, 0.5f);
+            color.b = std::pow(image.pixel(x, y).b, 0.5f);
+            image.pixel(x, y) = color;
+        }
+    }
 }   
 
 int main()
 {
-    sil::Image image{"images/logo.png"};
+    sil::Image image{"images/photo.jpg"};
     //sil::Image image{300/*width*/, 200/*height*/};
-    RGBsplit(image);
-    image.save("output/RGBsplit.png");
+    eclaircissement(image);
+    image.save("output/eclaircissement.png");
 }

@@ -1,4 +1,5 @@
 #include <sil/sil.hpp>
+#include "random.hpp"
 
 // /* ************************************ Exercice n°1 : Ne garder que le vert ********************************************* */
 /* void UniquementVert(sil::Image& image) {
@@ -52,7 +53,7 @@ for (int x{0}; x < image.width(); x++)
 }  */
 
 //  */************************************ Exercice n°6 : inverse **********************************************
-void inverse(sil::Image& image) {
+/* void inverse(sil::Image& image) {
 sil::Image imageReference = image;
 for (int x{0}; x < image.width()-1; x++)
 {
@@ -61,12 +62,26 @@ for (int x{0}; x < image.width()-1; x++)
         image.pixel(x, y) = imageReference.pixel(imageReference.width()-(x+1), y);
     }
 }
+}   */
+
+//  */************************************ Exercice n°7 : image bruité **********************************************
+void bruit(sil::Image& image) {
+    for (glm::vec3& color : image.pixels()) {
+        if (true_with_probability(0.3)) {
+            float rand = random_float(0, 1);
+            color.r = rand;
+            rand = random_float(0, 1);
+            color.g = rand;
+            rand = random_float(0, 1);
+            color.b = rand;
+        }
+    }
 }  
 
 int main()
 {
     sil::Image image{"images/logo.png"};
     //sil::Image image{300/*width*/, 200/*height*/};
-    inverse(image);
-    image.save("output/inverse.png");
+    bruit(image);
+    image.save("output/bruit.png");
 }

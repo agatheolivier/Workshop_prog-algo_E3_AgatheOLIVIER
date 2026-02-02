@@ -30,8 +30,14 @@ Equivalent de map en Processing puis (gris, gris, gris) pour les couleurs.
 
 ![](./output/degrade.png)
 
-## Exercice n°6 : inverse
+## Exercice n°6 : Inverse
 
-Attention à bien penser à stocker l'image de référence, sinon on obtient une symétrie.
+Au départ je n'avais pas stocker l'image de référence, et j'obtenais une symétrie.
+
+![](./output/inverse.png)
+
+## Exercice n°7 : Bruits
+
+30% de chance que le pixel soit remplacé par une couleur aléatoire.
 
 ![](./output/inverse.png)

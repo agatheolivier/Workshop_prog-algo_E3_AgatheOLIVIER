@@ -130,3 +130,11 @@ Il m'a suffit ensuite de le retranscrire en code pour obtenir le résultat :
 Le seul problème que j'ai rencontré est que ma condition dans le if n'était pas bonne, donc j'avais un glitch de point plutôt qu'un glitch de rectangle. Une fois la condition vérifié, j'ai le résultat suivant :
 
 ![](./output/glitch.png)
+
+## Exercice n°14 : Tri de pixels
+
+Sur chaque ligne, en portion d'une longueur et d'une position aléatoire et triée.
+
+Le problème le plus dur était de comprendre comment obtenir l'index de départ et de fin de la portion triée dans le tableau comme il n'est pas en double entrée.
+
+![](./output/triPixel.png)

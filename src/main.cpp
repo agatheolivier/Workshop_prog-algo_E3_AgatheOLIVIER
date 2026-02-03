@@ -1,6 +1,7 @@
 #include <sil/sil.hpp>
 #include "random.hpp"
 #include <cmath>
+#include <algorithm>
 
 // /* ************************************ Exercice n°1 : Ne garder que le vert ********************************************* */
 /* void UniquementVert(sil::Image& image) {
@@ -283,7 +284,7 @@ void mosaique(sil::Image& image) {
 } */ 
 
 //  */************************************ Exercice n°13 : glitch **********************************************
-void glitch(sil::Image& image) {
+/* void glitch(sil::Image& image) {
     sil::Image imageReference = image;
     for (int x{0}; x < image.width()-1; x++)
     {
@@ -319,12 +320,47 @@ void glitch(sil::Image& image) {
             }
         }
     }
-}
+} */
+
+//  */************************************ Exercice n°13 : glitch **********************************************
+ void triPixel(sil::Image& image) {
+    sil::Image imageReference = image;
+    for (int b{0}; b < imageReference.height(); b++) {
+        //Déterminer la position et la longueur du trie sur la ligne
+        int longeurGlitch = random_int(30, 100);
+        int positionXGlitch = random_int(0, imageReference.width());
+
+        while (longeurGlitch+positionXGlitch > imageReference.width()){
+            positionXGlitch = random_int(0, imageReference.width());
+        }
+
+        //Récupérer la portion et la mettre dans un nouveau tableau
+        int indexDebut = positionXGlitch + b * image.width();
+        int indexFin = indexDebut + longeurGlitch;
+        std::vector<glm::vec3> portion(
+            image.pixels().begin() + indexDebut,
+            image.pixels().begin() + indexFin
+        );     
+
+        //Trier ce nouveau tableau
+        std::sort(portion.begin(), portion.end(), [](glm::vec3 const& c1, glm::vec3 const& c2) {
+            float b1 = (c1.r + c1.g + c1.b) / 3.f;
+            float b2 = (c2.r + c2.g + c2.b) / 3.f;
+            return b1 < b2;
+        });
+
+        //Remplacer dans le tableau d'origine
+        for (int i = 0; i < longeurGlitch; i++) {
+            image.pixels()[indexDebut + i] = portion[i];
+        }
+
+    }
+} 
 
 int main()
 {
     sil::Image image{"images/logo.png"};
     //sil::Image image{500/*width*/, 500/*height*/};
-    glitch(image);
-    image.save("output/glitch.png");
+    triPixel(image);
+    image.save("output/triPixel.png");
 }

@@ -217,7 +217,7 @@ void eclaircissement(sil::Image& image) {
 }  */
 
 //  */************************************ Exercice n°12 : mosaïque **********************************************
-void joliFail(sil::Image& image) {
+/* void joliFail(sil::Image& image) {
     int longueurToile = image.width()*5;
     int largeurToile = image.height()*5;
     sil::Image toile{longueurToile, largeurToile};
@@ -251,13 +251,41 @@ void mosaique(sil::Image& image) {
         }
     }
     toile.save("output/mosaique.png");
-}   
+}    */
 
+void mosaiqueInverse(sil::Image& image) {
+    int longueurToile = image.width()*5;
+    int largeurToile = image.height()*5;
+    sil::Image toile{longueurToile, largeurToile};
+    sil::Image motif = image;
+    for (int a{0}; a < 5; a++){
+        for (int b{0}; b < 5; b++){
+            for (int x{0}; x < motif.width()-1; x++){
+                for (int y{0}; y < motif.height(); y++)
+                {
+                    if (a%2 == 0 && b%2 ==0) {
+                        toile.pixel(x + a*motif.width(), y + b*motif.height()) = motif.pixel(x, y);
+                    }
+                    else if (a%2 == 1 && b%2 == 0) {
+                        toile.pixel(x + a*motif.width(), y + b*motif.height()) = motif.pixel(motif.width()-1-x, y);
+                    }
+                    else if (a%2 == 1 && b%2 == 1) {
+                        toile.pixel(x + a*motif.width(), y + b*motif.height()) = motif.pixel(motif.width()-1-x, motif.height()-1-y);
+                    }
+                    else if (a%2 == 0 && b%2 == 1) {
+                        toile.pixel(x + a*motif.width(), y + b*motif.height()) = motif.pixel(x, motif.height()-1-y);
+                    }
+                }
+            }
+        }
+    }
+    toile.save("output/mosaiqueInverse.png");
+} 
 
 int main()
 {
     sil::Image image{"images/logo.png"};
     //sil::Image image{500/*width*/, 500/*height*/};
-    mosaique(image);
+    mosaiqueInverse(image);
     //image.save("output/mosaique.png");
 }

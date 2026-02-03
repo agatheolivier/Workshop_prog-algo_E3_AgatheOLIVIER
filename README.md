@@ -114,3 +114,13 @@ J'ai fait un premier test où le décalage était mal pensé, mais le résultat 
 J'ai réajusté le problème de décalage pour obtenir le bon résultat : 
 
 ![](./output/mosaique.png)
+
+### Partie 2 : Mosaïque inversée
+
+J'ai commencé par définir 4 les formes possibles de l'image et à quel moment elle était affiché : 
+
+![](./images/LogiqueMosaiqueInverseeEx12.jpg)
+
+Il m'a suffit ensuite de le retranscrire en code pour obtenir le résultat :
+
+![](./output/mosaiqueInverse.png)

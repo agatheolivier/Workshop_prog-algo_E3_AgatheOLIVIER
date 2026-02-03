@@ -120,7 +120,7 @@ for (int x{0}; x < image.width()-1; x++)
 }    */
 
 //  */************************************ Exercice n°9 : RGB Split **********************************************
-void assombrissement(sil::Image& image) {
+/* void assombrissement(sil::Image& image) {
     for (int x{0}; x < image.width()-1; x++)
     {
         for (int y{0}; y < image.height(); y++){
@@ -144,12 +144,49 @@ void eclaircissement(sil::Image& image) {
             image.pixel(x, y) = color;
         }
     }
-}   
+}  */  
+
+//  */************************************ Exercice n°11 : disque **********************************************
+void disque(sil::Image& image) {
+    int rayon = 150;
+    for (int z{0}; z < 25; z++) {
+        for (int x{0}; x < image.width()-1; x++){
+            for (int y{0}; y < image.height(); y++){
+                float longueur = x - ((image.width() / 25)*z);
+                float hauteur = y - (image.height() / 2.0f);
+                if (longueur*longueur + hauteur*hauteur <= rayon*rayon) { //le point est dans le cercle
+                    image.pixel(x, y) = glm::vec3{1.0f, 1.0f, 1.0f};
+                }
+                else { //le point est dans le cercle
+                    image.pixel(x, y) = glm::vec3{0.0f, 0.0f, 0.0f};
+                }
+            }
+        }
+    image.save("output/Animation/disque"+ std::to_string(z) +".png");
+    }
+}
+
+/* void cercle(sil::Image& image) {
+    int rayon = 150;
+    int epaisseur = 10;
+    int nombreDeCercle = 6;
+    for (int x{0}; x < image.width()-1; x++)
+    {
+        for (int y{0}; y < image.height(); y++){
+            float longueur = x - (image.width() / 2);
+            float hauteur = y - (image.height() / 2);
+            float theta = atan2(hauteur, longueur); // angle en radians [-π, π]
+            if ( (rayon-epaisseur)*(rayon-epaisseur) <= longueur*longueur + hauteur*hauteur && longueur*longueur + hauteur*hauteur <= rayon*rayon) { 
+                image.pixel(x, y) = glm::vec3{1.0f, 1.0f, 1.0f};
+            }
+        }
+    }
+} */
 
 int main()
 {
-    sil::Image image{"images/photo.jpg"};
-    //sil::Image image{300/*width*/, 200/*height*/};
-    eclaircissement(image);
-    image.save("output/eclaircissement.png");
+    //sil::Image image{"images/photo.jpg"};
+    sil::Image image{500/*width*/, 500/*height*/};
+    disque(image);
+    //image.save("output/cercle.png");
 }

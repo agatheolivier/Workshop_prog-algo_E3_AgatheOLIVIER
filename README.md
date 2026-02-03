@@ -66,3 +66,31 @@ Puissance 1,5 pour assombrir et puissance 0,5 pour éclairer.
 
 ![](./output/assombrissement.png)
 ![](./output/eclaircissement.png)
+
+## Exercice n°11 : Disque
+
+On a un cercle qui a pour centre le point [cx, cy] et pour rayon R. 
+L'équation de la droite est :
+
+>(x−cx)² + (y−cy)² ≤ R²
+
+Si (x−cx)² + (y−cy)² < R² alors le point est à l’intérieur du disque.
+Si (x−cx)² + (y−cy)² = R² alors le point est sur le contour
+Si (x−cx)² + (y−cy)² > R² alors le point est à l’extérieur
+
+![](./output/disque.png)
+
+### Partie 2 : cercle
+
+Le plus gros problème a été les maths (aled 🥲), heurement les camarades m'ont expliqué la formule : 
+>(R−e)² ≤ (x−cx)² + (y−cy)² ≤ R²
+
+La deuxième difficulté a été de comprendre qu'il fallait séparer la condition en 2, sinon on obtient une image toute blanche.
+
+![](./output/cercle.png)
+
+### Partie 2 : Animation
+
+25 images pour le GIF.
+
+![](/output/Animation/CercleAnime.gif)

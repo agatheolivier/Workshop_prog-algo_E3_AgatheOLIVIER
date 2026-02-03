@@ -147,7 +147,7 @@ void eclaircissement(sil::Image& image) {
 }  */  
 
 //  */************************************ Exercice n°11 : disque **********************************************
-void disque(sil::Image& image) {
+/* void disque(sil::Image& image) {
     int rayon = 150;
     for (int z{0}; z < 25; z++) {
         for (int x{0}; x < image.width()-1; x++){
@@ -164,29 +164,62 @@ void disque(sil::Image& image) {
         }
     image.save("output/Animation/disque"+ std::to_string(z) +".png");
     }
-}
+} */
 
 /* void cercle(sil::Image& image) {
     int rayon = 150;
     int epaisseur = 10;
-    int nombreDeCercle = 6;
     for (int x{0}; x < image.width()-1; x++)
     {
         for (int y{0}; y < image.height(); y++){
             float longueur = x - (image.width() / 2);
             float hauteur = y - (image.height() / 2);
-            float theta = atan2(hauteur, longueur); // angle en radians [-π, π]
             if ( (rayon-epaisseur)*(rayon-epaisseur) <= longueur*longueur + hauteur*hauteur && longueur*longueur + hauteur*hauteur <= rayon*rayon) { 
                 image.pixel(x, y) = glm::vec3{1.0f, 1.0f, 1.0f};
             }
         }
     }
-} */
+}  */
+
+void rosace(sil::Image& image) {
+    int rayon = 100;
+    int epaisseur = 5;
+
+    //Cercle de base
+    float centrex = image.width() / 2;
+    float centrey = image.height() / 2;
+    for (int x{0}; x < image.width()-1; x++)
+    {
+        for (int y{0}; y < image.height(); y++){
+            float longueur = x - (centrex);
+            float hauteur = y - (centrey);
+            if ( (rayon-epaisseur)*(rayon-epaisseur) <= longueur*longueur + hauteur*hauteur && longueur*longueur + hauteur*hauteur <= rayon*rayon) { 
+                image.pixel(x, y) = glm::vec3{1.0f, 1.0f, 1.0f};
+            }
+        }
+    }
+
+    //Rosace
+    for (int z{0}; z < 6; z++) {
+        float pointDépartx = (image.width() / 2)+ rayon*cos(z * M_PI / 3);
+        float pointDéparty = (image.height() / 2) + rayon*sin(z * M_PI / 3);
+        
+        for (int x{0}; x < image.width()-1; x++) {
+            for (int y{0}; y < image.height(); y++){
+                float longueur = x - (pointDépartx);
+                float hauteur = y - (pointDéparty);
+                if ( (rayon-epaisseur)*(rayon-epaisseur) <= longueur*longueur + hauteur*hauteur && longueur*longueur + hauteur*hauteur <= rayon*rayon) { 
+                    image.pixel(x, y) = glm::vec3{1.0f, 1.0f, 1.0f};
+                }
+            }
+    }
+    }
+} 
 
 int main()
 {
     //sil::Image image{"images/photo.jpg"};
     sil::Image image{500/*width*/, 500/*height*/};
-    disque(image);
-    //image.save("output/cercle.png");
+    rosace(image);
+    image.save("output/rosace.png");
 }

@@ -94,3 +94,9 @@ La deuxième difficulté a été de comprendre qu'il fallait séparer la conditi
 25 images pour le GIF.
 
 ![](/output/Animation/CercleAnime.gif)
+
+### Partie 3 : Rosace
+
+Le plus gros problème : les maths 🥲
+
+![](./output/rosace.png)

@@ -124,3 +124,9 @@ J'ai commencé par définir 4 les formes possibles de l'image et à quel moment 
 Il m'a suffit ensuite de le retranscrire en code pour obtenir le résultat :
 
 ![](./output/mosaiqueInverse.png)
+
+## Exercice n°13 : Glitch
+
+Le seul problème que j'ai rencontré est que ma condition dans le if n'était pas bonne, donc j'avais un glitch de point plutôt qu'un glitch de rectangle. Une fois la condition vérifié, j'ai le résultat suivant :
+
+![](./output/glitch.png)

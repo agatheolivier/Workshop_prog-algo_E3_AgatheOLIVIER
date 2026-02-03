@@ -253,7 +253,7 @@ void mosaique(sil::Image& image) {
     toile.save("output/mosaique.png");
 }    */
 
-void mosaiqueInverse(sil::Image& image) {
+/* void mosaiqueInverse(sil::Image& image) {
     int longueurToile = image.width()*5;
     int largeurToile = image.height()*5;
     sil::Image toile{longueurToile, largeurToile};
@@ -280,12 +280,51 @@ void mosaiqueInverse(sil::Image& image) {
         }
     }
     toile.save("output/mosaiqueInverse.png");
-} 
+} */ 
+
+//  */************************************ Exercice n°13 : glitch **********************************************
+void glitch(sil::Image& image) {
+    sil::Image imageReference = image;
+    for (int x{0}; x < image.width()-1; x++)
+    {
+        for (int y{0}; y < image.height(); y++)
+        {
+            image.pixel(x, y) = imageReference.pixel(x, y);
+        }
+    }
+
+    for (int a{0}; a < 250; a++) {
+        int longeurGlitch = random_int(0, 20);
+        int largeurGlitch = random_int(0, 10);
+        int positionXGlitch1 = random_int(0, imageReference.width());
+        int positionYGlitch1 = random_int(0, imageReference.height());
+        int positionXGlitch2 = random_int(0, imageReference.width());
+        int positionYGlitch2 = random_int(0, imageReference.height());
+
+        while (longeurGlitch+positionXGlitch1 > imageReference.width() || longeurGlitch+positionXGlitch2 > imageReference.width()){
+            longeurGlitch = random_int(0, 20);
+        }
+        while (largeurGlitch+positionYGlitch1 > imageReference.height() || largeurGlitch+positionYGlitch2 > imageReference.height()){
+            largeurGlitch = random_int(0, 10);
+        }
+
+        for (int x{0}; x < image.width()-1; x++) {
+            for (int y{0}; y < image.height(); y++){
+                if (x >= positionXGlitch1 && x < positionXGlitch1 + longeurGlitch && y >= positionYGlitch1 && y < positionYGlitch1 + largeurGlitch) {
+                    image.pixel(x, y) = imageReference.pixel(positionXGlitch2, positionYGlitch2);
+                }
+                else if (x >= positionXGlitch2 && x < positionXGlitch2 + longeurGlitch && y >= positionYGlitch2 && y < positionYGlitch2 + largeurGlitch) {
+                    image.pixel(x, y) = imageReference.pixel(positionXGlitch1, positionYGlitch1);
+                }
+            }
+        }
+    }
+}
 
 int main()
 {
     sil::Image image{"images/logo.png"};
     //sil::Image image{500/*width*/, 500/*height*/};
-    mosaiqueInverse(image);
-    //image.save("output/mosaique.png");
+    glitch(image);
+    image.save("output/glitch.png");
 }

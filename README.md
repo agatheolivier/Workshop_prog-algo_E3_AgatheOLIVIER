@@ -98,5 +98,19 @@ La deuxième difficulté a été de comprendre qu'il fallait séparer la conditi
 ### Partie 3 : Rosace
 
 Le plus gros problème : les maths 🥲
+Les formules : 
+>Point de départ X = Centre de l'image + rayon * cos(z * π / 3)
+
+>Point de départ Y = Centre de l'image + rayon * sin(z * π / 3)
 
 ![](./output/rosace.png)
+
+## Exercice n°12 : Mosaïque
+
+J'ai fait un premier test où le décalage était mal pensé, mais le résultat intéressant donc je l'ai sauvegardé dans "joliFail" :
+
+![](./output/joliFail.png)
+
+J'ai réajusté le problème de décalage pour obtenir le bon résultat : 
+
+![](./output/mosaique.png)

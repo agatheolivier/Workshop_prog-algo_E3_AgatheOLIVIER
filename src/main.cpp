@@ -181,7 +181,7 @@ void eclaircissement(sil::Image& image) {
     }
 }  */
 
-void rosace(sil::Image& image) {
+/* void rosace(sil::Image& image) {
     int rayon = 100;
     int epaisseur = 5;
 
@@ -214,12 +214,50 @@ void rosace(sil::Image& image) {
             }
     }
     }
-} 
+}  */
+
+//  */************************************ Exercice n°12 : mosaïque **********************************************
+void joliFail(sil::Image& image) {
+    int longueurToile = image.width()*5;
+    int largeurToile = image.height()*5;
+    sil::Image toile{longueurToile, largeurToile};
+    sil::Image motif = image;
+    for (int a{0}; a < 5; a++){
+        for (int b{0}; b < 5; b++){
+            for (int x{0}; x < motif.width()-1; x++){
+                for (int y{0}; y < motif.height(); y++)
+                {
+                    toile.pixel(x*a, y*b) = motif.pixel(x, y);
+                }
+            }
+        }
+    }
+    toile.save("output/joliFail.png");
+}   
+
+void mosaique(sil::Image& image) {
+    int longueurToile = image.width()*5;
+    int largeurToile = image.height()*5;
+    sil::Image toile{longueurToile, largeurToile};
+    sil::Image motif = image;
+    for (int a{0}; a < 5; a++){
+        for (int b{0}; b < 5; b++){
+            for (int x{0}; x < motif.width()-1; x++){
+                for (int y{0}; y < motif.height(); y++)
+                {
+                    toile.pixel(x + a*motif.width(), y + b*motif.height()) = motif.pixel(x, y);
+                }
+            }
+        }
+    }
+    toile.save("output/mosaique.png");
+}   
+
 
 int main()
 {
-    //sil::Image image{"images/photo.jpg"};
-    sil::Image image{500/*width*/, 500/*height*/};
-    rosace(image);
-    image.save("output/rosace.png");
+    sil::Image image{"images/logo.png"};
+    //sil::Image image{500/*width*/, 500/*height*/};
+    mosaique(image);
+    //image.save("output/mosaique.png");
 }

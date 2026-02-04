@@ -2,6 +2,7 @@
 #include "random.hpp"
 #include <cmath>
 #include <algorithm>
+#include <complex>
 
 // /* ************************************ Exercice n°1 : Ne garder que le vert ********************************************* */
 /* void UniquementVert(sil::Image& image) {
@@ -322,8 +323,8 @@ void mosaique(sil::Image& image) {
     }
 } */
 
-//  */************************************ Exercice n°13 : glitch **********************************************
- void triPixel(sil::Image& image) {
+//  */************************************ Exercice n°14 : glitch **********************************************
+ /* void triPixel(sil::Image& image) {
     sil::Image imageReference = image;
     for (int b{0}; b < imageReference.height(); b++) {
         //Déterminer la position et la longueur du trie sur la ligne
@@ -355,12 +356,42 @@ void mosaique(sil::Image& image) {
         }
 
     }
-} 
+}  */
+
+//  */************************************ Exercice n°15 : Fractale de Mandelbrot **********************************************
+void Fractale(sil::Image& image) {
+    for (int x = 0; x < image.width(); x++)
+    {
+        for (int y{0}; y < image.height(); y++)
+        {
+            std::complex<float> nombreComplexePixel = {(x * (4.0f/500.0f)- 2.0f), (y * (4.0f/500.0f)- 2.0f)};
+            std::complex<float> testFractale = {0, 0};
+            bool boolFractale = true;
+            float nbIteration = 0;
+            float nbIterationMax = 50;
+            for (int z = 0; z < nbIterationMax; z++) {
+                testFractale = testFractale * testFractale + nombreComplexePixel;
+                nbIteration++;
+                if (std::abs(testFractale) > 2){
+                    boolFractale = false;
+                    break;
+                }
+            }
+            if (boolFractale){
+                image.pixel(x, y) = glm::vec3{1.0f, 1.0f, 1.0f};
+            }
+            else {
+                image.pixel(x, y) = glm::vec3{nbIteration/nbIterationMax, nbIteration/nbIterationMax, nbIteration/nbIterationMax};
+                //image.pixel(x, y) = glm::vec3{1.0f/nbIteration, 1.0f/nbIteration, 1.0f/nbIteration};
+            }
+        }
+    }
+}
 
 int main()
 {
-    sil::Image image{"images/logo.png"};
-    //sil::Image image{500/*width*/, 500/*height*/};
-    triPixel(image);
-    image.save("output/triPixel.png");
+    //sil::Image image{"images/logo.png"};
+    sil::Image image{500/*width*/, 500/*height*/};
+    Fractale(image);
+    image.save("output/Fractale.png");
 }

@@ -138,3 +138,12 @@ Sur chaque ligne, en portion d'une longueur et d'une position aléatoire et tri�
 Le problème le plus dur était de comprendre comment obtenir l'index de départ et de fin de la portion triée dans le tableau comme il n'est pas en double entrée.
 
 ![](./output/triPixel.png)
+
+## Exercice n°15 : Fractale de Mandelbrot
+
+La plus grosse difficulté a été de réussir à convertir l'intervalle.
+
+Pour le dégradé de blanc, j'ai d'abord obtenu ce résultat avant de trouver le bon calcule.
+
+![](./output/joliFailFractale.png)
+![](./output/Fractale.png)

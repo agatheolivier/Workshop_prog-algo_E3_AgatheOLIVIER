@@ -169,3 +169,18 @@ La plus grosse difficulté est de trouver sur quel segment on se trouve, et la p
 Après quelques ajustements, j'ai obtenu cet arc-en-ciel :
 
 ![](./output/arcEnCiel.png)
+
+## Exercice n°17 : Tramage
+
+La difficulté était de trouver les bonnes valeurs et de penser à passer en noir et blanc.
+
+![](./output/tramage.png)
+
+## Exercice n°18 : Normalisation de l'histogramme
+
+La difficulté était de trouver la formule : 
+
+```image.pixel(x,y).g = (image.pixel(x,y).g - minimum) * (1 - 0)/(maximum - minimum);```
+
+
+![](./output/NormalisationHistogramme.png)

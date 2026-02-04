@@ -389,7 +389,7 @@ void mosaique(sil::Image& image) {
 } */
 
 //  */************************************ Exercice n°16 : dégradé couleur **********************************************
-void degradeCouleurMoche(sil::Image& image) {
+/* void degradeCouleurMoche(sil::Image& image) {
     for (int x{0}; x < image.width(); x++){
         for (int y{0}; y < image.height(); y++)
         {
@@ -451,7 +451,7 @@ glm::vec3 oklab_to_linear_srgb(glm::vec3 c)
 		-1.2684380046f * l + 2.6097574011f * m - 0.3413193965f * s,
 		-0.0041960863f * l - 0.7034186147f * m + 1.7076147010f * s,
     };
-}
+} */
 
 /* void degradeCouleur(sil::Image& image) {
     glm::vec3 couleurRougeSRGB = {1.0f, 0.0f, 0.0f};
@@ -495,7 +495,7 @@ glm::vec3 oklab_to_linear_srgb(glm::vec3 c)
     }
 }  */
 
-void arcEnCiel(sil::Image& image) {
+/* void arcEnCiel(sil::Image& image) {
     std::vector<glm::vec3> couleursArcEnCielSRGB = {
         {1.0f, 0.0f, 0.0f}, // rouge
         {1.0f, 1.0f, 0.0f}, // jaune
@@ -505,7 +505,7 @@ void arcEnCiel(sil::Image& image) {
         {1.0f, 0.0f, 1.0f}  // violet
     };
 
-    // 2️⃣ Conversion sRGB → Linear → Oklab
+    // Conversion sRGB → Linear → Oklab
     std::vector<glm::vec3> couleursArcEnCielLab;
     for (const auto& couleur : couleursArcEnCielSRGB)
     {
@@ -546,12 +546,66 @@ void arcEnCiel(sil::Image& image) {
             image.pixel(x, y) = couleurActuelleSRGB;
         }
     }
-} 
+}  */
+
+//  */************************************ Exercice n°17 : Tramage **********************************************
+/* void tramage(sil::Image& image) {
+    const int bayer_n = 4; 
+    float bayer_matrix_4x4[][bayer_n] = { 
+        { -0.5, 0, -0.375, 0.125 }, 
+        { 0.25, -0.25, 0.375, - 0.125 }, 
+        { -0.3125, 0.1875, -0.4375, 0.0625 }, 
+        { 0.4375, -0.0625, 0.3125, -0.1875 }, 
+    };
+
+    for (int sy = 0; sy < image.height(); sy++) { 
+        for (int sx = 0; sx < image.width(); sx++) { 
+            float bayer_value = bayer_matrix_4x4[sx % bayer_n][sy % bayer_n]; 
+            float imageNoirEtBlanc = image.pixel(sx,sy).r*0.3 + image.pixel(sx,sy).g*0.59 + image.pixel(sx,sy).b*0.11;
+
+            float output_color = imageNoirEtBlanc + (1 * bayer_value);
+            // Changer la couleur de l'écran du bleu au blanc 
+            if (output_color < (1.0f / 2.0f)) { 
+                image.pixel(sx, sy) = {0.0f, 0.0f, 0.0f}; 
+            } 
+            else {
+                image.pixel(sx, sy) = {1.0f, 1.0f, 1.0f}; 
+            }
+        } 
+    }
+} */
+
+//  */************************************ Exercice n°18 : Normalisation de l'histogramme **********************************************
+void NormalisationHistogramme(sil::Image& image) {
+    float  minimum =  1;
+    float  maximum =  0;
+
+    for (int x{0}; x < image.width()-1; x++) {
+        for (int y{0}; y < image.height(); y++){
+            float luminositéActuelle = (image.pixel(x,y).r + image.pixel(x,y).g + image.pixel(x,y).b)/3;
+            if (luminositéActuelle < minimum) {
+                minimum = luminositéActuelle;
+            }
+            else if (luminositéActuelle > maximum) {
+                maximum = luminositéActuelle;
+            }
+        }
+    } 
+
+    for (int x{0}; x < image.width()-1; x++) {
+        for (int y{0}; y < image.height(); y++){
+            image.pixel(x,y).r = (image.pixel(x,y).r - minimum)/(maximum - minimum);
+            image.pixel(x,y).g = (image.pixel(x,y).g - minimum)/(maximum - minimum);
+            image.pixel(x,y).b = (image.pixel(x,y).b - minimum)/(maximum - minimum);
+        }
+    } 
+
+}
 
 int main()
 {
-    //sil::Image image{"images/logo.png"};
-    sil::Image image{500/*width*/, 500/*height*/};
-    arcEnCiel(image);
-    image.save("output/arcEnCiel.png");
+    sil::Image image{"images/photo_faible_contraste.jpg"};
+    //sil::Image image{500/*width*/, 500/*height*/};
+    NormalisationHistogramme(image);
+    image.save("output/NormalisationHistogramme.png");
 }

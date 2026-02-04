@@ -359,7 +359,7 @@ void mosaique(sil::Image& image) {
 }  */
 
 //  */************************************ Exercice n°15 : Fractale de Mandelbrot **********************************************
-void Fractale(sil::Image& image) {
+/* void Fractale(sil::Image& image) {
     for (int x = 0; x < image.width(); x++)
     {
         for (int y{0}; y < image.height(); y++)
@@ -386,12 +386,172 @@ void Fractale(sil::Image& image) {
             }
         }
     }
+} */
+
+//  */************************************ Exercice n°16 : dégradé couleur **********************************************
+void degradeCouleurMoche(sil::Image& image) {
+    for (int x{0}; x < image.width(); x++){
+        for (int y{0}; y < image.height(); y++)
+        {
+            image.pixel(x, y).r = 1.0f - (x / float(image.width() - 1));
+            image.pixel(x, y).g = x / float(image.width() - 1);
+            image.pixel(x, y).b = 0.0f;
+        }
+    }
+} 
+
+//Conversion sRGB vers Linéar
+float srgb_to_linear(float c)
+{
+    if (c <= 0.04045f)
+        return c / 12.92f;
+    else
+        return pow((c + 0.055f) / 1.055f, 2.4f);
 }
+
+//Retour Linéar vers sRGB
+float linear_to_srgb(float c)
+{
+    if (c <= 0.0031308f)
+        return 12.92f * c;
+    else
+        return 1.055f * pow(c, 1.0f / 2.4f) - 0.055f;
+}
+
+//Linear vers OK LAB
+glm::vec3 linear_srgb_to_oklab(glm::vec3 c) {
+    float l = 0.4122214708f * c.r + 0.5363325363f * c.g + 0.0514459929f * c.b;
+	float m = 0.2119034982f * c.r + 0.6806995451f * c.g + 0.1073969566f * c.b;
+	float s = 0.0883024619f * c.r + 0.2817188376f * c.g + 0.6299787005f * c.b;
+
+    float l_ = cbrtf(l);
+    float m_ = cbrtf(m);
+    float s_ = cbrtf(s);
+
+    return {
+        0.2104542553f*l_ + 0.7936177850f*m_ - 0.0040720468f*s_,
+        1.9779984951f*l_ - 2.4285922050f*m_ + 0.4505937099f*s_,
+        0.0259040371f*l_ + 0.7827717662f*m_ - 0.8086757660f*s_,
+    };
+}
+
+//OK LAB vers Linéar
+glm::vec3 oklab_to_linear_srgb(glm::vec3 c) 
+{
+    float l_ = c.r + 0.3963377774f * c.g + 0.2158037573f * c.b;
+    float m_ = c.r - 0.1055613458f * c.g - 0.0638541728f * c.b;
+    float s_ = c.r - 0.0894841775f * c.g - 1.2914855480f * c.b;
+
+    float l = l_*l_*l_;
+    float m = m_*m_*m_;
+    float s = s_*s_*s_;
+
+    return {
+		+4.0767416621f * l - 3.3077115913f * m + 0.2309699292f * s,
+		-1.2684380046f * l + 2.6097574011f * m - 0.3413193965f * s,
+		-0.0041960863f * l - 0.7034186147f * m + 1.7076147010f * s,
+    };
+}
+
+/* void degradeCouleur(sil::Image& image) {
+    glm::vec3 couleurRougeSRGB = {1.0f, 0.0f, 0.0f};
+    glm::vec3 couleurVerteSRGB = {0.0f, 1.0f, 0.0f};
+
+    //On commence par convertir SRGB vers Linéar
+    //Attention pas tout d'un coup mais rouge, vert et bleu séparé
+    glm::vec3 couleurRougeLin{
+        srgb_to_linear(couleurRougeSRGB.r),
+        srgb_to_linear(couleurRougeSRGB.g),
+        srgb_to_linear(couleurRougeSRGB.b)
+    };
+
+    glm::vec3 couleurVerteLin{
+        srgb_to_linear(couleurVerteSRGB.r),
+        srgb_to_linear(couleurVerteSRGB.g),
+        srgb_to_linear(couleurVerteSRGB.b)
+    };
+
+    //Ensuite Linéar vers OK Lab
+    glm::vec3 couleurRougeLab = linear_srgb_to_oklab(couleurRougeLin);
+    glm::vec3 couleurVerteLab = linear_srgb_to_oklab(couleurVerteLin);
+
+    for (int x{0}; x < image.width(); x++){
+        float degrade = x / float(image.width() - 1);
+        glm::vec3 couleurActuelleLab = glm::mix(couleurRougeLab, couleurVerteLab, degrade);
+
+        //On fait le chemin inverse : OK Lab vers Linéar
+        glm::vec3 couleurActuelleLin = oklab_to_linear_srgb(couleurActuelleLab);
+
+        //Puis Linéar vers SRGB
+        glm::vec3 couleurActuellesSRGB{
+            linear_to_srgb(couleurActuelleLin.r),
+            linear_to_srgb(couleurActuelleLin.g),
+            linear_to_srgb(couleurActuelleLin.b)
+        };
+
+        for (int y = 0; y < image.height(); y++){
+            image.pixel(x, y) = couleurActuellesSRGB;
+        }
+    }
+}  */
+
+void arcEnCiel(sil::Image& image) {
+    std::vector<glm::vec3> couleursArcEnCielSRGB = {
+        {1.0f, 0.0f, 0.0f}, // rouge
+        {1.0f, 1.0f, 0.0f}, // jaune
+        {0.0f, 1.0f, 0.0f}, // vert
+        {0.0f, 1.0f, 1.0f}, // cyan
+        {0.0f, 0.0f, 1.0f}, // bleu
+        {1.0f, 0.0f, 1.0f}  // violet
+    };
+
+    // 2️⃣ Conversion sRGB → Linear → Oklab
+    std::vector<glm::vec3> couleursArcEnCielLab;
+    for (const auto& couleur : couleursArcEnCielSRGB)
+    {
+        //Convertie en linéar
+        glm::vec3 couleursArcEnCielLin{
+            srgb_to_linear(couleur.r),
+            srgb_to_linear(couleur.g),
+            srgb_to_linear(couleur.b)
+        };
+
+        //Convertie de Linéar à Lab et les met dans le tableau
+        couleursArcEnCielLab.push_back(linear_srgb_to_oklab(couleursArcEnCielLin));
+    }
+
+    int nbSegmentArcEnCiel = couleursArcEnCielLab.size() -1; //7 couleurs donc 6 segments
+
+    for (int x{0}; x < image.width(); x++){
+        float degrade = x / float(image.width() - 1);
+
+        float positionActuel = degrade * nbSegmentArcEnCiel; //On “étire” la position du dégradé pour qu’elle couvre tous les segments, ex si degradé = 0.3 alors la position sera = 0.3 * 5 = 1.5, soit la moitié du deuxième segment
+        //Il faut qu'on est l'indice du segment actuelle
+        int segment = std::floor(positionActuel); //Récupère l'indice du segment actuelle
+        float positionActuelSegment = positionActuel - segment; //Ex : moitié du segment 2
+
+        //On fait le dégradé seulement dans le segment actuel => indice de départ du dégradé
+        glm::vec3 couleurActuelleLab = glm::mix(couleursArcEnCielLab[segment], couleursArcEnCielLab[segment+1], positionActuelSegment);
+
+        glm::vec3 couleurActuelleLin = oklab_to_linear_srgb(couleurActuelleLab);
+
+        glm::vec3 couleurActuelleSRGB{
+            linear_to_srgb(couleurActuelleLin.r),
+            linear_to_srgb(couleurActuelleLin.g),
+            linear_to_srgb(couleurActuelleLin.b)
+        };
+
+
+        for (int y = 0; y < image.height(); y++){
+            image.pixel(x, y) = couleurActuelleSRGB;
+        }
+    }
+} 
 
 int main()
 {
     //sil::Image image{"images/logo.png"};
     sil::Image image{500/*width*/, 500/*height*/};
-    Fractale(image);
-    image.save("output/Fractale.png");
+    arcEnCiel(image);
+    image.save("output/arcEnCiel.png");
 }

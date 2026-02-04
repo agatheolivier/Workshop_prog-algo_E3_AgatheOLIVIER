@@ -147,3 +147,25 @@ Pour le dégradé de blanc, j'ai d'abord obtenu ce résultat avant de trouver le
 
 ![](./output/joliFailFractale.png)
 ![](./output/Fractale.png)
+
+## Exercice n°16 : Dégradé
+
+Le dégradé en suivant le même principe qu'au début :
+
+![](./output/degradeCouleurMoche.png)
+
+Je les refais en OK Lab (le plus dur était la conversion de sRGB vers Linéar), et aussi la structure lab dans la doc qui au finale n'est pas utilisable avec glm::mix.
+
+![](./output/degradeCouleur.png)
+
+## BONUS : Arc-en-ciel (stp ça mérite un point bonus 🥺)
+
+Je me suis dis qu'un arc-en-ciel suivait le même principe qu'un dégradé. Avec quelque cherche, j'ai découvert qu'on pouvait découper l'arc-ciel en segment d'une couleur à l'autre, puis d'appliquer les dégradés sur ces segments.
+
+J'ai choisi de stocker les 7 couleurs dans un tableau pour pouvoir y accéder facilement via un ID et éviter plein de boucle if.
+
+La plus grosse difficulté est de trouver sur quel segment on se trouve, et la position sur ce segment pour déterminer la couleur actuelle.
+
+Après quelques ajustements, j'ai obtenu cet arc-en-ciel :
+
+![](./output/arcEnCiel.png)

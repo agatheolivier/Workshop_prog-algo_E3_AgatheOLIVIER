@@ -182,5 +182,10 @@ La difficulté était de trouver la formule :
 
 ```image.pixel(x,y).g = (image.pixel(x,y).g - minimum) * (1 - 0)/(maximum - minimum);```
 
-
 ![](./output/NormalisationHistogramme.png)
+
+## Exercice n°19 : Vortex
+
+La difficulté : bien penser au cas où les pixels sortent du cadre, ici je les ai juste mis en noir comme ça ça donne un résultat foncé sur les bords qui rend bien peu importe l'image de base.
+
+![](./output/Vortex.png)

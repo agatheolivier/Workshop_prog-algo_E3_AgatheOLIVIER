@@ -3,6 +3,7 @@
 #include <cmath>
 #include <algorithm>
 #include <complex>
+#include <glm/gtx/matrix_transform_2d.hpp>
 
 // /* ************************************ Exercice n°1 : Ne garder que le vert ********************************************* */
 /* void UniquementVert(sil::Image& image) {
@@ -576,7 +577,7 @@ glm::vec3 oklab_to_linear_srgb(glm::vec3 c)
 } */
 
 //  */************************************ Exercice n°18 : Normalisation de l'histogramme **********************************************
-void NormalisationHistogramme(sil::Image& image) {
+/* void NormalisationHistogramme(sil::Image& image) {
     float  minimum =  1;
     float  maximum =  0;
 
@@ -597,15 +598,43 @@ void NormalisationHistogramme(sil::Image& image) {
             image.pixel(x,y).r = (image.pixel(x,y).r - minimum)/(maximum - minimum);
             image.pixel(x,y).g = (image.pixel(x,y).g - minimum)/(maximum - minimum);
             image.pixel(x,y).b = (image.pixel(x,y).b - minimum)/(maximum - minimum);
+            //Ex le pixel le plus sombre est 0.2 et le pixel le plus clair 0.7
+            //On translate en premier, on fait -0.2
+            //On divise par 0.7
         }
     } 
 
+} */
+
+glm::vec2 rotated(glm::vec2 point, glm::vec2 center_of_rotation, float angle){
+    return glm::vec2{glm::rotate(glm::mat3{1.f}, angle) * glm::vec3{point - center_of_rotation, 0.f}} + center_of_rotation;
 }
+
+void Vortex(sil::Image& image) {
+    glm::vec2 center_of_rotation = {image.width()/2, image.height()/2};
+    float angle = M_PI / 24;
+    sil::Image imageReference = image;
+
+    for (int x{0}; x < image.width()-1; x++) {
+        for (int y{0}; y < image.height(); y++){
+            glm::vec2 positionPoint = {x, y};
+            float distance = glm::distance(center_of_rotation, positionPoint);
+            glm::vec2 rotation = rotated(positionPoint, center_of_rotation, angle*distance);
+            if (rotation[0] < image.width() && rotation[0] > 0 && rotation[1] < image.height() && rotation[1] > 0) {
+                image.pixel(x,y) = imageReference.pixel(rotation[0],rotation[1]);
+            }
+            else {
+                image.pixel(x,y) = {0.0f, 0.0f, 0.0f};
+            }
+        }
+    }
+    image.save("output/Vortex.png");
+} 
 
 int main()
 {
-    sil::Image image{"images/photo_faible_contraste.jpg"};
+    sil::Image image{"images/logo.png"};
     //sil::Image image{500/*width*/, 500/*height*/};
-    NormalisationHistogramme(image);
-    image.save("output/NormalisationHistogramme.png");
+    Vortex(image);
+    //image.save("output/Vortex.png");
 }

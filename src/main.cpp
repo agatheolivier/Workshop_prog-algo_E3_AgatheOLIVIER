@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <complex>
 #include <glm/gtx/matrix_transform_2d.hpp>
+#include <array>
 
 // /* ************************************ Exercice n°1 : Ne garder que le vert ********************************************* */
 /* void UniquementVert(sil::Image& image) {
@@ -606,7 +607,9 @@ glm::vec3 oklab_to_linear_srgb(glm::vec3 c)
 
 } */
 
-glm::vec2 rotated(glm::vec2 point, glm::vec2 center_of_rotation, float angle){
+//  */************************************ Exercice n°19 : Vortex **********************************************
+
+/* glm::vec2 rotated(glm::vec2 point, glm::vec2 center_of_rotation, float angle){
     return glm::vec2{glm::rotate(glm::mat3{1.f}, angle) * glm::vec3{point - center_of_rotation, 0.f}} + center_of_rotation;
 }
 
@@ -629,12 +632,146 @@ void Vortex(sil::Image& image) {
         }
     }
     image.save("output/Vortex.png");
-} 
+}  */
+
+//  */************************************ Exercice n°19 : Convolution **********************************************
+
+/* void Flou(sil::Image& image) {
+    sil::Image imageReference = image;
+    int flou = 3;
+    for (int x{0}; x < image.width(); x++) {
+        for (int y{0}; y < image.height(); y++){
+            if (x > flou && x < image.width()-flou && y > flou && y < image.height()-flou) {
+                    
+                image.pixel(x, y) = ((imageReference.pixel(x-flou, y-flou) + imageReference.pixel(x, y-flou) + imageReference.pixel(x+flou, y-flou) + imageReference.pixel(x-flou, y) + imageReference.pixel(x, y) + imageReference.pixel(x+flou, y) + imageReference.pixel(x-flou, y+flou) + imageReference.pixel(x, y+flou) + imageReference.pixel(x+flou, y+flou))/9.f);
+            }
+
+         pix(x-2, y) +    pix(x-1, y) + pix(x,  y)+ pix(x+1,  y)+ pix(x+2,  y)
+        sum = glm::vec3(0);
+         for(int delta_x = -flou, delta_x <= flou; ++delta_x)
+            sum += pix(x+delta_x, y)
+            //Haut 
+            // else if (y <= flou && x > flou && x < image.width()-flou) {
+            //     for (int z{0}; z < 3; z++){
+            //         image.pixel(x, y)[z] = ((imageReference.pixel(x-flou, y+flou)[z] + imageReference.pixel(x, y+flou)[z] + imageReference.pixel(x+flou, y+flou)[z] + imageReference.pixel(x-flou, y)[z] + imageReference.pixel(x, y)[z] + imageReference.pixel(x+flou, y)[z] + imageReference.pixel(x-flou, y+flou)[z] + imageReference.pixel(x, y+flou)[z] + imageReference.pixel(x+flou, y+flou)[z])/9);
+            //     }
+            // }
+            // //Bas
+            // else if (y >= image.height()-flou && x > flou && x < image.width()-flou) {
+            //     for (int z{0}; z < 3; z++){
+            //         image.pixel(x, y)[z] = ((imageReference.pixel(x-flou, y-flou)[z] + imageReference.pixel(x, y-flou)[z] + imageReference.pixel(x+flou, y-flou)[z] + imageReference.pixel(x-flou, y)[z] + imageReference.pixel(x, y)[z] + imageReference.pixel(x+flou, y)[z] + imageReference.pixel(x-flou, y-flou)[z] + imageReference.pixel(x, y-flou)[z] + imageReference.pixel(x+flou, y-flou)[z])/9);
+            //     }
+            // } 
+            // //Gauche
+            // else if (x <= flou && y > flou && y < image.height()-flou) {
+            //     for (int z{0}; z < 3; z++){
+            //         image.pixel(x, y)[z] = ((imageReference.pixel(x+flou, y-flou)[z] + imageReference.pixel(x, y-flou)[z] + imageReference.pixel(x+flou, y-flou)[z] + imageReference.pixel(x+flou, y)[z] + imageReference.pixel(x, y)[z] + imageReference.pixel(x+flou, y)[z] + imageReference.pixel(x+flou, y+flou)[z] + imageReference.pixel(x, y+flou)[z] + imageReference.pixel(x+flou, y+flou)[z])/9);
+            //     }
+            // }
+            // //Droite
+            // else if (x >= image.width()-flou && y > flou && y < image.height()-flou) {
+            //     for (int z{0}; z < 3; z++){
+            //         image.pixel(x, y)[z] = ((imageReference.pixel(x-flou, y-flou)[z] + imageReference.pixel(x, y-flou)[z] + imageReference.pixel(x-flou, y-flou)[z] + imageReference.pixel(x-flou, y)[z] + imageReference.pixel(x, y)[z] + imageReference.pixel(x-flou, y)[z] + imageReference.pixel(x-flou, y+flou)[z] + imageReference.pixel(x, y+flou)[z] + imageReference.pixel(x-flou, y+flou)[z])/9);
+            //     }
+            // }  
+            else {
+                image.pixel(x, y) = glm::vec3(1, 0, 0); // rouge pétant
+            }     
+        }
+    }
+    image.save("output/Flou.png");
+}  */
+
+void Flou(sil::Image& image) {
+    sil::Image imageReference = image;
+    int flou = 5;
+    for (int x{0}; x < image.width(); x++) {
+        for (int y{0}; y < image.height(); y++){
+            glm::vec3 somme = glm::vec3(0);
+            for (int deltaX = -flou; deltaX <= flou; deltaX++){
+                for (int deltaY = -flou; deltaY <= flou; deltaY++){
+                    if (x + deltaX > 0 && x + deltaX < image.width() && y + deltaY > 0 && y + deltaY < image.height()) {
+                        somme = somme + imageReference.pixel(x+deltaX, y+deltaY);
+                    }
+                    else {
+                        somme = somme + glm::vec3(0.0f, 0.0f, 0.0f);
+                    }
+                }
+            } 
+            image.pixel(x,y) = somme/float((flou*2+1)*(flou*2+1));
+        }
+    } 
+    image.save("output/Flou.png");
+}
+
+void effet(sil::Image& image) {
+    sil::Image imageReference = image;
+    int flou = 1;
+    float kernel[3][3] = {
+        {0.0f, -1.0f,  0.0f},
+        {-1.0f,  5.0f,  -1.0f},
+        {0.0f,  -1.0f,  0.0f}
+    };
+    for (int x{0}; x < image.width(); x++) {
+        for (int y{0}; y < image.height(); y++){
+            glm::vec3 somme = glm::vec3(0);
+            for (int deltaX = -flou; deltaX <= flou; deltaX++){
+                for (int deltaY = -flou; deltaY <= flou; deltaY++){
+                    if (x + deltaX > 0 && x + deltaX < image.width() && y + deltaY > 0 && y + deltaY < image.height()) {
+                        somme = somme + imageReference.pixel(x+deltaX, y+deltaY)*kernel[deltaX+1][deltaY+1];
+                    }
+                    else {
+                        somme = somme + glm::vec3(0.0f, 0.0f, 0.0f);
+                    }
+                }
+            } 
+            image.pixel(x,y) = somme;
+        }
+    } 
+    image.save("output/sharpen.png");
+}
+
+void FiltreSeparable(sil::Image& image) {
+    sil::Image imageReference = image;
+    sil::Image imageFinale = image;
+    int flou = 5;
+    for (int x{0}; x < image.width(); x++) {
+        for (int y{0}; y < image.height(); y++){
+            glm::vec3 somme = glm::vec3(0);
+            for (int deltaX = -flou; deltaX <= flou; deltaX++){
+                    if (x + deltaX > 0 && x + deltaX < image.width()) {
+                        somme = somme + imageReference.pixel(x+deltaX, y);
+                    }
+                    else {
+                        somme = somme + glm::vec3(0.0f, 0.0f, 0.0f);
+                    }
+        
+            } 
+            image.pixel(x,y) = somme/float((flou*2+1));
+        }
+    } 
+    for (int x{0}; x < image.width(); x++) {
+        for (int y{0}; y < image.height(); y++){
+            glm::vec3 somme = glm::vec3(0);
+            for (int deltaY = -flou; deltaY <= flou; deltaY++){
+                    if (y + deltaY > 0 && y + deltaY < image.height()) {
+                        somme = somme + image.pixel(x, y+deltaY);
+                    }
+                    else {
+                        somme = somme + glm::vec3(0.0f, 0.0f, 0.0f);
+                    }
+        
+            } 
+            imageFinale.pixel(x,y) = somme/float((flou*2+1));
+        }
+    } 
+    imageFinale.save("output/FiltreSeparable.png");
+}
 
 int main()
 {
     sil::Image image{"images/logo.png"};
     //sil::Image image{500/*width*/, 500/*height*/};
-    Vortex(image);
+    FiltreSeparable(image);
     //image.save("output/Vortex.png");
-}
+} 

@@ -189,3 +189,29 @@ La difficulté était de trouver la formule :
 La difficulté : bien penser au cas où les pixels sortent du cadre, ici je les ai juste mis en noir comme ça ça donne un résultat foncé sur les bords qui rend bien peu importe l'image de base.
 
 ![](./output/Vortex.png)
+
+## Exercice n°20 : Convolutions
+
+La difficulté : Simplier avec les deux autres boucles, mon premier essaie marchait mais ne permettait pas d'augmenter le flou.
+
+![](./output/Flou.png)
+
+### Emboss
+
+Ajouter une matrice, bien penser à retirer la division finale qui est déjà compris dans le kernel.
+
+![](./output/emboss.png)
+
+### Outline
+
+![](./output/outline.png)
+
+### Sharpen
+
+![](./output/sharpen.png)
+
+### Filtres séparables
+
+Difficulté : Penser à créer une troisième version de l'image.
+
+![](./output/FiltreSeparable.png)

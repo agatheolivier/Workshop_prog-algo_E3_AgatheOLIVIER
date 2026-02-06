@@ -504,7 +504,7 @@ glm::vec3 oklab_to_linear_srgb(glm::vec3 c)
         {0.0f, 1.0f, 0.0f}, // vert
         {0.0f, 1.0f, 1.0f}, // cyan
         {0.0f, 0.0f, 1.0f}, // bleu
-        {1.0f, 0.0f, 1.0f}  // violet
+        {1.0f, 0.0f, 1.0f}  // rose
     };
 
     // Conversion sRGB → Linear → Oklab
@@ -548,7 +548,7 @@ glm::vec3 oklab_to_linear_srgb(glm::vec3 c)
             image.pixel(x, y) = couleurActuelleSRGB;
         }
     }
-}  */
+}   */
 
 //  */************************************ Exercice n°17 : Tramage **********************************************
 /* void tramage(sil::Image& image) {

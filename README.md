@@ -215,3 +215,8 @@ Ajouter une matrice, bien penser à retirer la division finale qui est déjà co
 Difficulté : Penser à créer une troisième version de l'image.
 
 ![](./output/FiltreSeparable.png)
+
+# Conclusion
+
+Les maths c'est compliqué 🥲
+Et vive les arc-en-ciel 🌈
